@@ -13,11 +13,11 @@ class User < ApplicationRecord
   before_validation :downcase_email
   validates :email, :username, :password, presence: true
   validates :email, :username, uniqueness: true
-  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+  validates :email, format: { with: /@/ }
 
   before_validation :downcase_username
   validates :username, length: { minimum: 3, maximum: 40 }
-  validates :username, format: { with: /\A[a-zA-Z0-9_]+\z/i }
+  validates :username, format: { with: /\A[a-zA-Z0-9_]+\z/ }
 
   before_save :encrypt_password
 
