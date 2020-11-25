@@ -1,31 +1,25 @@
 require 'openssl'
 
 class User < ApplicationRecord
+  attr_accessor :password
 
   ITERATIONS = 2000
   DIGEST = OpenSSL::Digest::SHA256.new
 
   has_many :questions
 
+  validates :password, confirmation: true
 
-  validates :email, :username, presence: true
+  before_validation :downcase_email
+  validates :email, :username, :password, presence: true
   validates :email, :username, uniqueness: true
-  validates :email, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
 
-  validates :username, :length => {:minimum => 3, :maximum => 40}
   before_validation :downcase_username
-  validates :username, :format => {:with => /\A[a-zA-Z0-9_]+\z/i }
-
-  validates_presence_of :password, on: create
-  validates_confirmation_of :password
-
-  attr_accessor :password
+  validates :username, length: { minimum: 3, maximum: 40 }
+  validates :username, format: { with: /\A[a-zA-Z0-9_]+\z/i }
 
   before_save :encrypt_password
-
-  def downcase_username
-    self.username = username.downcase if username.present?
-  end
 
   def encrypt_password
     if self.password.present?
@@ -51,5 +45,15 @@ class User < ApplicationRecord
     else
       nil
     end
+  end
+
+  private
+
+  def downcase_username
+    self.username = username.downcase if username.present?
+  end
+
+  def downcase_email
+    self.email = email.downcase if email.present?
   end
 end
