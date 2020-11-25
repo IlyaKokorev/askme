@@ -7,10 +7,13 @@ class User < ApplicationRecord
 
   has_many :questions
 
+
   validates :email, :username, presence: true
   validates :email, :username, uniqueness: true
-  validates :username, :length => {:minimum => 3, :maximum => 40}
   validates :email, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+
+  validates :username, :length => {:minimum => 3, :maximum => 40}
+  before_validation :downcase_username
   validates :username, :format => {:with => /\A[a-zA-Z0-9_]+\z/i }
 
   validates_presence_of :password, on: create
@@ -19,6 +22,10 @@ class User < ApplicationRecord
   attr_accessor :password
 
   before_save :encrypt_password
+
+  def downcase_username
+    self.username = username.downcase if username.present?
+  end
 
   def encrypt_password
     if self.password.present?
