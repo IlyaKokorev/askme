@@ -5,7 +5,7 @@ class User < ApplicationRecord
   DIGEST = OpenSSL::Digest::SHA256.new
 
   has_many :questions
-  
+
   attr_accessor :password
 
   before_validation :downcase_email
@@ -49,10 +49,10 @@ class User < ApplicationRecord
   private
 
   def downcase_username
-    self.username = username.downcase if username.present?
+    self.username = username.downcase if username&.present?
   end
 
   def downcase_email
-    self.email = email.downcase if email.present?
+    self.email = email.downcase if email&.present?
   end
 end
