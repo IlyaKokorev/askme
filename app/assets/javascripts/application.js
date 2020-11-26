@@ -19,11 +19,11 @@
 // Этот код добавляет обработчик события выдвигания формы при клике на кнопку
 // «Задать вопрос», которая видна только, когда страница открыта в маленьком
 // окне.
+//= require jquery3
+
 $(function(){
-  $('#ask-button').click(function(){
-    $('#ask-form').slideToggle(300);
-    return false;
+    $('#ask-button').click(function(){
+      $('#ask-form').slideToggle(300);
+      return false;
   });
 });
-
-//= require jquery3
