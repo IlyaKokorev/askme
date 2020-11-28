@@ -4,12 +4,12 @@ class User < ApplicationRecord
   ITERATIONS = 2000
   DIGEST = OpenSSL::Digest::SHA256.new
 
-  has_many :questions
-
   attr_accessor :password
 
-  before_validation :downcase_email
-  before_validation :downcase_username
+  has_many :questions
+
+  before_validation :downcase_user_text
+  before_save :encrypt_password
 
   validates :password, confirmation: true
   validates :email, :username, :password, presence: true
@@ -18,13 +18,12 @@ class User < ApplicationRecord
   validates :username, length: { minimum: 3, maximum: 40 }
   validates :username, format: { with: /\A[a-zA-Z0-9_]+\z/ }
 
-  before_save :encrypt_password
-
   def self.hash_to_string(password_hash)
     password_hash.unpack('H*')[0]
   end
 
   def self.authenticate(email, password)
+    email&.downcase!
     user = find_by(email: email)
 
     if user.present? && user.password_hash == User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST))
@@ -47,12 +46,9 @@ class User < ApplicationRecord
       )
     end
   end
-  
-  def downcase_username
-    username&.downcase!
-  end
 
-  def downcase_email
+  def downcase_user_text
+    username&.downcase!
     email&.downcase!
   end
 end
