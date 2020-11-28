@@ -36,6 +36,9 @@ class UsersController < ApplicationController
         Question.new(text: 'Получается?', created_at: Date.parse('25.11.2020'))
     ]
 
+    @question_with_answer = @questions.count { |question| question.answer }
+    @question_without_answer = @questions.count - @question_with_answer
+
     @new_question = Question.new
   end
 end

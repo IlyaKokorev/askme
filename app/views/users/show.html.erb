@@ -12,7 +12,9 @@
   </h2>
 
   <div class="counter">
-    У пользователя <%= inclination(@questions.count, 'вопрос', 'вопроса', 'вопросов') %>
+    <p>У пользователя <%= inclination(@questions.count, 'вопрос', 'вопроса', 'вопросов') %></p>
+    <p>Из них с ответом <%= @question_with_answer %></p>
+    <p>Без ответа <%= @question_without_answer %></p>
   </div>
 
   <div class="user-ask-button container text-center">
