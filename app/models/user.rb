@@ -34,6 +34,8 @@ class User < ApplicationRecord
     end
   end
 
+  private
+
   def encrypt_password
     if self.password.present?
       self.password_salt = User.hash_to_string(OpenSSL::Random.random_bytes(16))
@@ -45,9 +47,7 @@ class User < ApplicationRecord
       )
     end
   end
-
-  private
-
+  
   def downcase_username
     username&.downcase!
   end
