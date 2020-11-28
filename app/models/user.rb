@@ -8,15 +8,13 @@ class User < ApplicationRecord
 
   has_many :questions
 
+  validates :password, confirmation: true, presence: true
+  validates :email, :username, presence: true, uniqueness: true
+  validates :email, format: { with: /\A.+@.+\z/ }
+  validates :username, length: { minimum: 3, maximum: 40 }, format: { with: /\A[a-zA-Z0-9_]+\z/ }
+
   before_validation :downcase_user_text
   before_save :encrypt_password
-
-  validates :password, confirmation: true
-  validates :email, :username, :password, presence: true
-  validates :email, :username, uniqueness: true
-  validates :email, format: { with: /\A.+@.+\z/ }
-  validates :username, length: { minimum: 3, maximum: 40 }
-  validates :username, format: { with: /\A[a-zA-Z0-9_]+\z/ }
 
   def self.hash_to_string(password_hash)
     password_hash.unpack('H*')[0]
