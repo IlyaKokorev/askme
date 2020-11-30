@@ -7,10 +7,6 @@ module ApplicationHelper
     end
   end
 
-  def fa_icon(icon_class)
-    content_tag 'span', '', class: "fa fa-#{icon_class}"
-  end
-
   def inclination(number, enot, enota, enotov)
     return "нет заданных вопросов" if number == 0
 
@@ -26,5 +22,9 @@ module ApplicationHelper
     return "#{number} #{enota}" if remainder.between?(2, 4)
 
     "#{number} #{enotov}" if remainder.between?(5, 9)
+  end
+
+  def fa_icon(icon_class)
+    content_tag 'span', '', class: "fa fa-#{icon_class}"
   end
 end
