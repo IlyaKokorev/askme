@@ -1,44 +1,65 @@
 class UsersController < ApplicationController
+  before_action :load_user, except: [:index, :create, :new]
+
+  before_action :authorize_user, except: [:index, :new, :create, :show]
+
   def index
-    @users = [
-        User.new(
-            id: 1,
-            name: 'Ilya',
-            username: 'ilyacatran',
-            avatar_url: 'https://linlt.com/upload/photos/2019/01/udthvlXOe2d3xWv8vLk4_22_f268a0a090e3cefcb0564430f6bd3ca8_avatar.jpg?cache=0'
-        ),
-        User.new(
-            id: 2,
-            name: 'User2',
-            username: 'user22'
-        )
-    ]
+    @users = User.all
   end
 
   def new
+    redirect_to root_url, alert: 'Вы уже залогинены!' if current_user.present?
+
+    @user = User.new
+  end
+
+  def create
+    redirect_to root_url, alert: 'Вы уже залогинены!' if current_user.present?
+
+    @user = User.new(user_params)
+
+    if @user.save
+      redirect_to root_path, notice: 'Пользователь успешно зарегистрирован!'
+    else
+      render 'new'
+    end
   end
 
   def edit
   end
 
-  def show
-    @user = User.new(
-        name: 'Ilya',
-        username: 'ilyacatran',
-        avatar_url: 'https://linlt.com/upload/photos/2019/01/udthvlXOe2d3xWv8vLk4_22_f268a0a090e3cefcb0564430f6bd3ca8_avatar.jpg?cache=0'
-    )
+  def update
+    if @user.update(user_params)
+      redirect_to user_path(@user), notice: 'Пользователь успешно зарегистрирован!'
+    else
+      render 'edit'
+    end
+  end
 
-    @questions = [
-        Question.new(text: 'Как дела?', created_at: Date.parse('25.11.2020')),
-        Question.new(text: 'Как сам?', created_at: Date.parse('25.11.2020')),
-        Question.new(text: 'Чо делаешь?', created_at: Date.parse('25.11.2020')),
-        Question.new(text: 'Ботаешь?', created_at: Date.parse('25.11.2020')),
-        Question.new(text: 'Получается?', created_at: Date.parse('25.11.2020'))
-    ]
+  def show
+    # берём вопросы у найденного юзера
+    @questions = @user.questions.order(created_at: :desc)
+
+    # Для формы нового вопроса создаём заготовку, вызывая build у результата вызова метода @user.questions.
+    @new_question = @user.questions.build
+
 
     @question_with_answer = @questions.count { |question| question.answer }
     @question_without_answer = @questions.count - @question_with_answer
+  end
 
-    @new_question = Question.new
+  private
+
+  def authorize_user
+    reject_user unless @user == current_user
+  end
+
+  def load_user
+    @user ||= User.find params[:id]
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation,
+                                 :name, :username, :avatar_url)
   end
 end

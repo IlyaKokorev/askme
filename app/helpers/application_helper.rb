@@ -7,8 +7,13 @@ module ApplicationHelper
     end
   end
 
+  def fa_icon(icon_class)
+    content_tag 'span', '', class: "fa fa-#{icon_class}"
+  end
+
   def inclination(number, enot, enota, enotov)
-    number = 0 if number == nil
+    return "нет заданных вопросов" if number == 0
+
 
     remainder_over100 = number % 100
 
