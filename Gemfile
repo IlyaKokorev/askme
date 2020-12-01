@@ -24,6 +24,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'uglifier'
 
+gem 'rails_12factor'
+
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :production do
