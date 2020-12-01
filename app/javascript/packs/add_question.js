@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     askButton.addEventListener('click', (event) => {
         event.preventDefault()
         setTimeout(() => {
-            let displayStyle = askForm.style.display === 'block' ? 'none' : 'block'
-            askForm.style.display = displayStyle
+            askForm.style.display = askForm.style.display === 'block' ? 'none' : 'block'
         }, 300);
     })
 })
