@@ -19,6 +19,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      session[:user_id] = @user.id
       redirect_to root_path, notice: 'Пользователь успешно зарегистрирован!'
     else
       render 'new'
@@ -30,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to user_path(@user), notice: 'Пользователь успешно зарегистрирован!'
+      redirect_to user_path(@user), notice: 'Данные обновлены!'
     else
       render 'edit'
     end
@@ -46,6 +47,8 @@ class UsersController < ApplicationController
     @questions_count = @questions.count
     @answers_count = @questions.where.not(answer: nil).count
     @unanswered_count = @questions_count - @answers_count
+
+
   end
 
   private

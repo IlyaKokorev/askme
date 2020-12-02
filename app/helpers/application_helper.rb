@@ -13,15 +13,15 @@ module ApplicationHelper
 
     remainder_over100 = number % 100
 
-    return "#{number} #{enotov}" if remainder_over100.between?(11, 14)
+    return enotov if remainder_over100.between?(11, 14)
 
     remainder = number % 10
 
-    return "#{number} #{enot}" if remainder == 1
+    return enot if remainder == 1
 
-    return "#{number} #{enota}" if remainder.between?(2, 4)
+    return enota if remainder.between?(2, 4)
 
-    "#{number} #{enotov}" if remainder.between?(5, 9)
+    enotov if remainder.between?(5, 9)
   end
 
   def fa_icon(icon_class)
