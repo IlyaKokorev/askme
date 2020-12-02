@@ -8,13 +8,13 @@ class UsersController < ApplicationController
   end
 
   def new
-    redirect_to root_url, alert: 'Вы уже залогинены!' if current_user.present?
+    redirect_to root_path, alert: 'Вы уже залогинены!' if current_user.present?
 
     @user = User.new
   end
 
   def create
-    redirect_to root_url, alert: 'Вы уже залогинены!' if current_user.present?
+    redirect_to root_path, alert: 'Вы уже залогинены!' if current_user.present?
 
     @user = User.new(user_params)
 
@@ -61,6 +61,6 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation,
-                                 :name, :username, :avatar_url)
+                                 :name, :username, :avatar_url, :background_color)
   end
 end
