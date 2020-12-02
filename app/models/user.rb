@@ -34,20 +34,20 @@ class User < ApplicationRecord
 
   private
 
+  def downcase_user_text
+    username&.downcase!
+    email&.downcase!
+  end
+
   def encrypt_password
     if self.password.present?
       self.password_salt = User.hash_to_string(OpenSSL::Random.random_bytes(16))
 
       self.password_hash = User.hash_to_string(
-          OpenSSL::PKCS5.pbkdf2_hmac(
-              password, password_salt, ITERATIONS, DIGEST.length, DIGEST
-          )
+      OpenSSL::PKCS5.pbkdf2_hmac(
+      password, password_salt, ITERATIONS, DIGEST.length, DIGEST
+      )
       )
     end
-  end
-
-  def downcase_user_text
-    username&.downcase!
-    email&.downcase!
   end
 end
