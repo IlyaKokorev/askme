@@ -10,7 +10,6 @@ module ApplicationHelper
   def inclination(number, enot, enota, enotov)
     return "нет заданных вопросов" if number == 0
 
-
     remainder_over100 = number % 100
 
     return enotov if remainder_over100.between?(11, 14)
