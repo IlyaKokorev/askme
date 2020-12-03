@@ -8,8 +8,8 @@ class User < ApplicationRecord
 
   has_many :questions, dependent: :destroy
 
-  validates :password, presence: true, on:create
   validates :password, confirmation: true
+  validates :password, presence: true, on: :create
   validates :email, :username, presence: true, uniqueness: true
   validates :email, format: { with: /\A.+@.+\z/ }
   validates :username, length: { minimum: 3, maximum: 40 }, format: { with: /\A[a-zA-Z0-9_]+\z/ }
