@@ -15,7 +15,7 @@ class User < ApplicationRecord
   validates :username, length: { minimum: 3, maximum: 40 }, format: { with: /\A[a-zA-Z0-9_]+\z/ }
 
   before_validation :downcase_user_text
-  before_save :encrypt_password
+  before_save :encrypt_password, :user_color
 
   def self.hash_to_string(password_hash)
     password_hash.unpack('H*')[0]
@@ -37,6 +37,10 @@ class User < ApplicationRecord
   def downcase_user_text
     username&.downcase!
     email&.downcase!
+  end
+
+  def user_color
+    self.background_color = '#005a55' if self.background_color == nil
   end
 
   def encrypt_password
