@@ -1,5 +1,5 @@
 module QuestionsHelper
-  def author_id(id)
-    User.find_by(id: id)
+  def author_username(id)
+    User.find_by(id: id)&.username
   end
 end
