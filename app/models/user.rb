@@ -15,8 +15,8 @@ class User < ApplicationRecord
   validates :username, length: { minimum: 3, maximum: 40 }, format: { with: /\A[a-zA-Z0-9_]+\z/ }
   validates :background_color, format: { with: /\A#?([a-f0-9]{6}|[a-f0-9]{3})\z/ }
 
-  before_validation :downcase_user_text
-  before_save :encrypt_password, :user_color
+  before_validation :downcase_user_text, :user_color
+  before_save :encrypt_password
 
   def self.hash_to_string(password_hash)
     password_hash.unpack('H*')[0]

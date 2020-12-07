@@ -15,9 +15,9 @@
     <%# Дата создания вопроса (отформатированная) %>
       <div class="question-date">
         <p>Вопрос задан <%= l(question.created_at, format: :short) %></p>
-          <% if author_id(question.author).present? %>
+          <% if question.author.present? %>
             <p>Пользователем
-              <%= link_to author_id(question.author).username, user_path(author_id(question.author)) %> </p>
+              <%= link_to "@#{question.author.username}", user_path(question.author) %> </p>
           <% end %>
       </div>
   </div>
