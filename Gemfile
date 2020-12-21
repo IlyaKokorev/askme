@@ -26,6 +26,8 @@ gem 'uglifier'
 
 gem 'rails_12factor'
 
+gem 'recaptcha'
+
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :production do
