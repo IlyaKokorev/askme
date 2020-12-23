@@ -1,10 +1,14 @@
-<div class="column-3-4">
-  <div class="user-questions buffer-both">
-    <div class="questions-list">
-      <% @questions.each do |question| %>
-        <%= link_to "@#{question.user.username}", user_path(question.user) %>
-        <%= render partial: 'questions/question', object: question %>
-      <% end %>
-    </div>
+<div class="user-questions buffer-both">
+  <div class="questions-list">
+    <% @questions.each do |question| %>
+      <div class="container">
+        <div class="question-content">
+          <div class="question-answer text-lead">
+            Вопрос для: <%= link_to "@#{question.user.username}", user_path(question.user) %>
+          </div>
+          <%= render partial: 'questions/question', object: question %>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
