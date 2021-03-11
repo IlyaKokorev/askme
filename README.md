@@ -1,24 +1,14 @@
-# README
+# Askmy (Хорошие вопросы)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Приложение, в котором пользователи могут задавать вопросы и отвечать на них. 
 
-Things you may want to cover:
+Приложение на [Heroku](https://ilyaaskme.herokuapp.com/)
 
-* Ruby version
+# Установка и запуск
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* `git clone git@github.com:IlyaKokorev/askme.git`
+* `bundle install`
+* `bundle exec rake db:migrate`
+* `yarn`
+* `bundle exec rails s`
+* `http://localhost:3000/`

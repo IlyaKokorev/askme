@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def inclination(number, enot, enota, enotov)
-    return "нет заданных вопросов" if number == 0
+    return 'нет заданных вопросов' if number == 0
 
     remainder_over100 = number % 100
 

@@ -7,9 +7,9 @@ class SessionsController < ApplicationController
 
     if user.present?
       session[:user_id] = user.id
-      redirect_to root_path, notice: "Вы успешно залогинились."
+      redirect_to root_path, notice: 'Вы успешно залогинились.'
     else
-      flash.now.alert = "Неправильный логин или пароль."
+      flash.now.alert = 'Неправильный логин или пароль.'
       render :new
     end
   end
