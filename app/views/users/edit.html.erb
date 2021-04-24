@@ -67,7 +67,7 @@
       </div>
 
       <div class="buffer-top-large buffer-bottom">
-        <%= link_to 'Удалить аккаунт', @user, method: :delete %>
+        <%= link_to 'Удалить аккаунт', @user, method: :delete, data: { confirm: 'Вы уверены?' } %>
       </div>
     <% end %>
 

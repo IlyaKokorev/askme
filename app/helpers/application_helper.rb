@@ -7,8 +7,16 @@ module ApplicationHelper
     end
   end
 
+  def question_author(author)
+    if author.present?
+      link_to "@#{author.username}", user_path(author)
+    else
+      "неизвестен"
+    end
+  end
+
   def inclination(number, enot, enota, enotov)
-    return 'нет заданных вопросов' if number == 0
+    return 'нет заданных вопросов' if number.zero?
 
     remainder_over100 = number % 100
 

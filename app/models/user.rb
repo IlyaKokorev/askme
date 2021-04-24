@@ -2,7 +2,7 @@ require 'openssl'
 
 class User < ApplicationRecord
   ITERATIONS = 2000
-  DIGEST = OpenSSL::Digest::SHA256.new
+  DIGEST = OpenSSL::Digest.new('SHA256')
 
   attr_accessor :password
 
@@ -19,18 +19,14 @@ class User < ApplicationRecord
   before_save :encrypt_password
 
   def self.hash_to_string(password_hash)
-    password_hash.unpack('H*')[0]
+    password_hash.unpack1('H*')
   end
 
   def self.authenticate(email, password)
     email&.downcase!
     user = find_by(email: email)
-
-    if user.present? && user.password_hash == User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST))
-      user
-    else
-      nil
-    end
+    user_hash = User.hash_to_string(OpenSSL::PKCS5.pbkdf2_hmac(password, user.password_salt, ITERATIONS, DIGEST.length, DIGEST))
+    user if user.present? && user.password_hash == user_hash
   end
 
   private
@@ -41,7 +37,7 @@ class User < ApplicationRecord
   end
 
   def user_color
-    self.background_color = '#005a55' if background_color == nil
+    self.background_color = '#005a55' if background_color.nil?
   end
 
   def encrypt_password

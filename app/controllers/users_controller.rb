@@ -60,7 +60,11 @@ class UsersController < ApplicationController
   end
 
   def load_user
-    @user ||= User.find params[:id]
+    begin
+      @user ||= User.find params[:id]
+    rescue ActiveRecord::RecordNotFound => e
+      redirect_to root_url, alert: 'Пользователь не найден'
+    end
   end
 
   def user_params
